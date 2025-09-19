@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<head>
+    <title>Películas Recomendadas</title>
+    <style>
+        nav#menu {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px 20px;
+        }
+
+        nav#menu ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            gap: 20px; 
+        }
+
+        nav#menu li {
+            margin: 0;
+        }
+
+        nav#menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        nav#menu a:hover {
+            background-color: #2980b9;
+            color: #fff;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background: #f5f5f5 url(https://variety.com/wp-content/uploads/2023/03/Movie-Theater-Film-Cinema-Exhibition-Placeholder.jpg?w=1000&h=562&crop=1) center/cover no-repeat fixed;
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+    </style>
+</head>
+<body>
+    <nav id="menu"></nav>
+
+    <h1>Películas Recomendadas</h1>
+
+    <script>
+        fetch("menu.json")
+            .then(response => response.json())
+            .then(menuData => {
+                const menus = document.getElementById("menu");
+                const ul = document.createElement("ul");
+
+                menuData.forEach(item => {
+                    const li = document.createElement("li");
+                    const a = document.createElement("a");
+                    a.textContent = item.nombre;
+                    a.href = item.url;
+                    li.appendChild(a);
+                    ul.appendChild(li);
+                });
+
+                menus.appendChild(ul);
+            })
+            .catch(error => console.error("Error cargando el menú:", error));
+    </script>
+
+    <footer style="background-color:#222; color:#fff; text-align:center; padding:20px; margin-top:40px;">
+        <p>&copy; 2025 Películas Recomendadas | Todos los derechos reservados</p>
+        <p>Diseñado por Robert Plaza</p>
+    </footer>
+
+</body>
+
+</html>
+
