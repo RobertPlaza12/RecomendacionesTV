@@ -1,0 +1,6 @@
+[
+  { "nombre": "Inicio", "url": "https://uasd.edu.do/uasd-virtual" },
+  { "nombre": "Películas", "url": "https://uasd.edu.do/sobre-la-uasd" },
+  { "nombre": "Series", "url": "series.html" },
+  { "nombre": "Contacto", "url": "contacto.html" }
+]
