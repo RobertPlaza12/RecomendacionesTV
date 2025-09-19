@@ -2,6 +2,38 @@
 <head>
     <title>Películas Recomendadas</title>
     <style>
+        nav#menu {
+            max-width: 800px;
+            margin: 0 auto 30px auto;
+            background: rgba(255,255,255,0.9);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 10px 20px;
+        }
+        nav#menu ul {
+            list-style: none;      /* quitar viñetas */
+            margin: 0;
+            padding: 0;
+            display: flex;         /* lo hace horizontal */
+            justify-content: center;
+            gap: 20px;             /* espacio entre elementos */
+        }
+        nav#menu li {
+            margin: 0;
+        }
+        nav#menu a {
+            text-decoration: none;
+            color: #2c3e50;
+            font-weight: bold;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        nav#menu a:hover {
+            background-color: #2980b9;
+            color: #fff;
+        }
+        
         body {
             font-family: 'Arial', sans-serif;
             margin: 20px;
@@ -199,4 +231,5 @@
 </body>
 
 </html>
+
 
