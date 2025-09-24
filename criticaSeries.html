@@ -90,24 +90,60 @@
             position: relative;
         }
 
+        .top {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .top img {
+            float: left;
+            margin-right: 40px;
+            border-radius: 5px;
+            width: 5%;
+        }
+        .top h2 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .clear {
+            clear: both;
+        }
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <nav id="menu"></nav>
 
-    <h1>RecomendacionesTV</h1>
-    <section id="bienvenida" style="background-color:#fff; max-width:900px; margin:30px auto; padding:25px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center;">
-        <h2 style="color:#2c3e50; margin-bottom:15px;">Bienvenido a RecomendacionesTV</h2>
-        <p style="font-size:18px; color:#555; line-height:1.6;">
-            Aquí encontrarás las mejores <strong>películas y series</strong>, 
-            seleccionadas especialmente para que disfrutes de horas de entretenimiento.  
-            Descubre clásicos, novedades y joyas ocultas tanto del cine como de la televisión.  
-        </p>
-        <p style="font-size:18px; color:#555; line-height:1.6;">
-            ¡Prepárate unas palomitas, acomódate en tu sofá y deja que 
-            <strong>RecomendacionesTV</strong> te guíe hacia tu próxima maratón!
-        </p>
-    </section>
+    <h1>Series Clasificación</h1>
+
+    <div class="top"> 
+        <img src="https://mediaproxy.tvtropes.org/width/1200/https://static.tvtropes.org/pmwiki/pub/images/breaking_bad_4.png" alt="Póster de Breaking Bad">
+        <h2>Breaking Bad <p style="float: right;">9.5/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p8579931_b_v8_ab.jpg" alt="Póster de Breaking Bad">
+        <h2>Band of Brothers <p style="float: right;">9.4/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://m.media-amazon.com/images/M/MV5BMzY4NDBkMWYtYzdkYy00YzBjLWJmODctMWM4YjYzZTdjNWE5XkEyXkFqcGc@._V1_QL75_UY281_CR4,0,190,281_.jpg" alt="Póster de Breaking Bad">
+        <h2>Planet Earth <p style="float: right;">9.4/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://resizing.flixster.com/-XZAfHZM39UwaGJIFWKAE8fS0ak=/v3/t/assets/p7892928_b_v8_ab.jpg" alt="Póster de Breaking Bad">
+        <h2>The Wire <p style="float: right;">9.3/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://es.web.img3.acsta.net/pictures/19/04/29/08/21/1692162.jpg?coixp=45&coiyp=73" alt="Póster de Breaking Bad">
+        <h2>Chernobyl <p style="float: right;">9.3/10</p></h2> 
+        <div class="clear"></div>
+        <p><a href="https://www.imdb.com/es/chart/toptv/?ref_=ttrt_nv_menu&sort=user_rating%2Cdesc" target="_blank">Listado completo en IMDb</a></p>
+
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
@@ -121,4 +157,3 @@
 </body>
 
 </html>
-

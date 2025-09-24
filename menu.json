@@ -2,5 +2,5 @@
   { "nombre": "Inicio", "url": "index.html" },
   { "nombre": "Películas", "url": "peliculas.html" },
   { "nombre": "Series", "url": "series.html" },
-  { "nombre": "Critica", "url": "critica.html", "subMenu": [{"nombre": "Peliculas", "url": "criticaPeliculas.html"}, {"nombre": "Series", "url": "criticaSeries.html"}]}
+  { "nombre": "Critica", "url": "", "subMenu": [{"nombre": "Peliculas", "url": "criticaPeliculas.html"}, {"nombre": "Series", "url": "criticaSeries.html"}]}
 ]

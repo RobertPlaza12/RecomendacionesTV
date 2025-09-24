@@ -2,6 +2,24 @@
 <head>
     <title>Películas Recomendadas</title>
     <style>
+
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 20px;
+            background: #f5f5f5 url(https://cdn.masmovil.es/embed/17ebde02ab71c25777ff0b0ddc4fb7a452e1676888762/netflix.jpg?imagick=1&size=1000) center/cover no-repeat fixed;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            background-color: #fff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
         nav#menu {
             max-width: 800px;
             margin: 0 auto 30px auto;
@@ -38,22 +56,40 @@
             color: #fff;
         }
 
-        body {
-            font-family: 'Arial', sans-serif;
-            margin: 20px;
-            background: #f5f5f5 url(https://variety.com/wp-content/uploads/2023/03/Movie-Theater-Film-Cinema-Exhibition-Placeholder.jpg?w=1000&h=562&crop=1) center/cover no-repeat fixed;
-            color: #333;
+        nav#menu ul li ul a:hover {
+            background-color: #bbc3c8;
+            color: #415c76;
         }
-        h1 {
-            text-align: center;
+
+        nav#menu ul li ul a {
+            text-decoration: none;
             color: #2c3e50;
-            background-color: #fff;
-            padding: 20px;
-            margin: 20px auto;
-            max-width: 800px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            padding: 2px 5px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            font-weight: normal;
         }
+
+        nav#menu ul li ul {
+            display: none;
+            position: absolute;
+            top: 100%; 
+            left: 0;
+            background: #ffffff;
+            border: 1px solid #ccc;
+            min-width: 180px;
+            box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+            padding: 5px 0;
+            z-index: 1000;
+        }
+        nav#menu ul li:hover > ul {
+            display: block;
+        }
+        
+        nav#menu ul li {
+            position: relative;
+        }
+
         .pelicula {
             background-color: #ffffff;
             padding: 20px;

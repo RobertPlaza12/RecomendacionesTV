@@ -90,24 +90,60 @@
             position: relative;
         }
 
+        .top {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .top img {
+            float: left;
+            margin-right: 40px;
+            border-radius: 5px;
+            width: 5%;
+        }
+        .top h2 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .clear {
+            clear: both;
+        }
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
     <nav id="menu"></nav>
 
-    <h1>RecomendacionesTV</h1>
-    <section id="bienvenida" style="background-color:#fff; max-width:900px; margin:30px auto; padding:25px; border-radius:12px; box-shadow:0 4px 10px rgba(0,0,0,0.1); text-align:center;">
-        <h2 style="color:#2c3e50; margin-bottom:15px;">Bienvenido a RecomendacionesTV</h2>
-        <p style="font-size:18px; color:#555; line-height:1.6;">
-            Aquí encontrarás las mejores <strong>películas y series</strong>, 
-            seleccionadas especialmente para que disfrutes de horas de entretenimiento.  
-            Descubre clásicos, novedades y joyas ocultas tanto del cine como de la televisión.  
-        </p>
-        <p style="font-size:18px; color:#555; line-height:1.6;">
-            ¡Prepárate unas palomitas, acomódate en tu sofá y deja que 
-            <strong>RecomendacionesTV</strong> te guíe hacia tu próxima maratón!
-        </p>
-    </section>
+    <h1>Peliculas Clasificación</h1>
+
+    <div class="top"> 
+        <img src="https://m.media-amazon.com/images/M/MV5BMzdhNGE2ZjAtYjFjYS00YmY2LTg4MDctZTNhN2VlOGM3NjUwXkEyXkFqcGc@._V1_.jpg" alt="Póster de Breaking Bad">
+        <h2>Sueño de fuga <p style="float: right;">9.3/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://m.media-amazon.com/images/M/MV5BZmNiNzM4MTctODI5YS00MzczLWE2MzktNzY4YmNjYjA5YmY1XkEyXkFqcGc@._V1_FMjpg_UX1000_.jpg" alt="Póster de Breaking Bad">
+        <h2>El padrino <p style="float: right;">9.2/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://m.media-amazon.com/images/M/MV5BN2U3NmZjMTYtY2JhOS00NzU4LWJkMDAtZjFmZjAyN2ZlMTMxXkEyXkFqcGc@._V1_.jpg" alt="Póster de Breaking Bad">
+        <h2>Batman: El caballero de la noche <p style="float: right;">9.1/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://m.media-amazon.com/images/M/MV5BZTkzMjIwOWUtYmRkZS00ZDdjLThiOTQtNjk4ZmM5NTY1YWI1XkEyXkFqcGc@._V1_.jpg" alt="Póster de Breaking Bad">
+        <h2>La Lista de Schindler <p style="float: right;">9.0/10</p></h2>
+        <div class="clear"></div>
+        <img src="https://clubdeescritura.com/wp-content/uploads/users-77/user-76125/2019/01/3-830470fd34f2249e286855899ba8894e.jpg" alt="Póster de Breaking Bad">
+        <h2>12 hombres en pugna <p style="float: right;">9.0/10</p></h2> 
+        <div class="clear"></div>
+        <p><a href="https://www.imdb.com/es/chart/top/?ref_=chttvtp_nv_menu&sort=user_rating%2Cdesc" target="_blank">Listado completo en IMDb</a></p>
+
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
@@ -121,4 +157,3 @@
 </body>
 
 </html>
-
