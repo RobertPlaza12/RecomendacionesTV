@@ -74,10 +74,12 @@
         </p>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script>
-        fetch("menu.json")
-            .then(response => response.json())
-            .then(menuData => {
+        axios.get("menu.json")
+            .then(response => {
+                const menuData = response.data;
                 const menus = document.getElementById("menu");
                 const ul = document.createElement("ul");
 
@@ -103,3 +105,4 @@
 </body>
 
 </html>
+
