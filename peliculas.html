@@ -205,11 +205,13 @@
         <iframe src="https://www.youtube.com/embed/lc0UehYemQA" title="Jurassic Park Trailer" allowfullscreen></iframe>
         <p><a href="https://www.imdb.com/title/tt0107290/" target="_blank">Más sobre Jurassic Park en IMDb</a></p>
     </div>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    
     <script>
-        fetch("menu.json")
-            .then(response => response.json())
-            .then(menuData => {
+        axios.get("menu.json")
+            .then(response => {
+                const menuData = response.data;
                 const menus = document.getElementById("menu");
                 const ul = document.createElement("ul");
 
@@ -235,4 +237,3 @@
 </body>
 
 </html>
-
