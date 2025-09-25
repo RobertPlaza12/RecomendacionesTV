@@ -11,7 +11,6 @@ axios.get("menu.json")
             a.href = item.url;
             li.appendChild(a);
 
-            // Verificar si el ítem tiene submenús
             if (item.subMenu && Array.isArray(item.subMenu)) {
                 const subUl = document.createElement("ul");
 
@@ -32,4 +31,5 @@ axios.get("menu.json")
 
         menus.appendChild(ul);
     })
+
     .catch(error => console.error("Error cargando el menú:", error));
