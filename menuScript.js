@@ -32,4 +32,5 @@ axios.get("menu.json")
         menus.appendChild(ul);
     })
 
-    .catch(error => console.error("Error cargando el menú:", error));
+    .catch(error => console.error("Error cargando el menu:", error));
+
