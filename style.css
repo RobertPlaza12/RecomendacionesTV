@@ -103,6 +103,35 @@
             margin-top: 0;
             color: #2980b9;
         }
+                .pelicula {
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px auto;
+            max-width: 800px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .pelicula img {
+            float: left;
+            margin-right: 40px;
+            border-radius: 5px;
+            width: 200px;
+            height: 315px;
+        }
+        .pelicula h2 {
+            margin-top: 0;
+            color: #2980b9;
+        }
+        .pelicula h3 {
+            margin-left: 50px;
+            color: #2980b9;
+        }
+        .pelicula iframe {
+            margin-left: 50px;
+            width: 560px;
+            height: 315px;
+            margin-top: 10px;
+        }
         .clear {
             clear: both;
         }
