@@ -1,79 +1,91 @@
-// renderPeliculas.js
+// renderPeliculas_final.js
 
-// Función principal con JSONP
-function cargarYMostrarPeliculas() {
-    console.log('🔄 Cargando películas via JSONP...');
+async function cargarPeliculas() {
+    console.log('🚀 Intentando cargar películas...');
     
-    // Crear script para JSONP
-    const script = document.createElement('script');
-    script.src = 'https://recomendacionestv.fwh.is/api_peliculas_jsonp.php?callback=mostrarPeliculas&_=' + Date.now();
-    document.head.appendChild(script);
+    // Intentar JSONP primero
+    await cargarConJSONP();
+    
+    // Si falla, intentar con proxy después de 3 segundos
+    setTimeout(() => {
+        if (!window.peliculasCargadas) {
+            console.log('🔄 JSONP falló, intentando con proxy...');
+            cargarConProxy();
+        }
+    }, 3000);
 }
 
-// Función callback que se ejecutará con los datos
-function mostrarPeliculas(peliculas) {
-    console.log('✅ Películas cargadas via JSONP:', peliculas);
+function cargarConJSONP() {
+    return new Promise((resolve) => {
+        const script = document.createElement('script');
+        script.src = 'https://recomendacionestv.fwh.is/api_peliculas_simple.php?callback=mostrarPeliculas&_=' + Date.now();
+        script.onload = resolve;
+        script.onerror = resolve;
+        document.head.appendChild(script);
+    });
+}
+
+function cargarConProxy() {
+    // Usar un proxy CORS público
+    const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
+    const targetUrl = 'https://recomendacionestv.fwh.is/api_peliculas.php';
+    
+    fetch(proxyUrl + encodeURIComponent(targetUrl))
+        .then(response => response.json())
+        .then(peliculas => {
+            console.log('✅ Datos cargados via proxy:', peliculas);
+            mostrarPeliculas(peliculas);
+        })
+        .catch(error => {
+            console.error('❌ Proxy también falló:', error);
+            usarDatosLocales();
+        });
+}
+
+function usarDatosLocales() {
+    console.log('📁 Cargando datos locales...');
+    const peliculas = [
+        {
+            id: "1",
+            titulo: "Inception",
+            poster: "https://m.media-amazon.com/images/M/MV5BZDYwMDU0NTktMjg1MC00ZWNiLWE2ZTQtYzczZWMxZGM3OTJmXkEyXkFqcGc@._V1_.jpg",
+            trailer: "https://www.youtube.com/embed/YoHD9XEInc0",
+            ibm: "https://www.imdb.com/title/tt1375666/",
+            sinopsis: "Dom Cobb es un ladrón con la habilidad de entrar en los sueños de las personas y robar sus secretos.",
+            actor1: "Leonardo DiCaprio",
+            actor2: "Joseph Gordon-Levitt",
+            actor3: "Elliot Page",
+            actor4: "Tom Hardy"
+        }
+    ];
+    mostrarPeliculas(peliculas);
+}
+
+window.mostrarPeliculas = function(peliculas) {
+    console.log('🎬 Mostrar películas llamado con:', peliculas);
+    window.peliculasCargadas = true;
     
     const contenedor = document.getElementById('contenedor-peliculas');
-    if (!contenedor) {
-        console.error('❌ No se encontró el contenedor');
-        return;
-    }
+    if (!contenedor) return;
     
-    // Limpiar contenedor
     contenedor.innerHTML = '';
     
-    // Mostrar cada película
     if (peliculas && peliculas.length > 0) {
         peliculas.forEach(pelicula => {
-            crearElementoPelicula(pelicula);
+            const div = document.createElement('div');
+            div.className = 'pelicula';
+            div.innerHTML = `
+                <h2>${pelicula.titulo}</h2>
+                <img src="${pelicula.poster}" alt="${pelicula.titulo}">
+                <p>${pelicula.sinopsis}</p>
+                <p>Actores: ${pelicula.actor1}, ${pelicula.actor2}, ${pelicula.actor3}, ${pelicula.actor4}</p>
+                <iframe src="${pelicula.trailer}" width="560" height="315"></iframe>
+            `;
+            contenedor.appendChild(div);
         });
     } else {
-        mostrarError('No se encontraron películas');
+        contenedor.innerHTML = '<p>No se pudieron cargar las películas</p>';
     }
-}
+};
 
-// Tu función existente para crear el HTML
-function crearElementoPelicula(pelicula) {
-    const divPelicula = document.createElement('div');
-    divPelicula.className = 'pelicula';
-    divPelicula.innerHTML = `
-        <img src="${pelicula.poster}" alt="Póster de ${pelicula.titulo}" 
-             onerror="this.src='https://via.placeholder.com/300x450/333/fff?text=Poster+No+Disponible'">
-        <h2>${pelicula.titulo}</h2>
-        <p><strong>Sinopsis:</strong> ${pelicula.sinopsis}</p>
-        <p><strong>Actores principales:</strong></p>
-        <ul>
-            <li>${pelicula.actor1 || 'No disponible'}</li>
-            <li>${pelicula.actor2 || 'No disponible'}</li>
-            <li>${pelicula.actor3 || 'No disponible'}</li>
-            <li>${pelicula.actor4 || 'No disponible'}</li>
-        </ul>
-        <div class="clear"></div>
-        <h3>Tráiler:</h3>
-        <iframe 
-            width="560" 
-            height="315" 
-            src="${pelicula.trailer}" 
-            frameborder="0" 
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-            allowfullscreen>
-        </iframe>
-        <p><a href="${pelicula.ibm}" target="_blank">Más sobre ${pelicula.titulo} en IMDb</a></p>
-    `;
-    
-    document.getElementById('contenedor-peliculas').appendChild(divPelicula);
-}
-
-function mostrarError(mensaje) {
-    const contenedor = document.getElementById('contenedor-peliculas');
-    if (contenedor) {
-        contenedor.innerHTML = `<div class="error">${mensaje}</div>`;
-    }
-}
-
-// Iniciar cuando la página cargue
-document.addEventListener('DOMContentLoaded', function() {
-    console.log('🚀 Iniciando carga de películas...');
-    cargarYMostrarPeliculas();
-});
+document.addEventListener('DOMContentLoaded', cargarPeliculas);
