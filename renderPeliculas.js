@@ -28,7 +28,7 @@ function cargarConJSONP() {
 function cargarConProxy() {
     // Usar un proxy CORS público
     const proxyUrl = 'https://api.codetabs.com/v1/proxy?quest=';
-    const targetUrl = 'https://recomendacionestv.fwh.is/api_peliculas.php';
+    const targetUrl = 'https://recomendacionestv.fwh.is/api_peliculas_simple.php';
     
     fetch(proxyUrl + encodeURIComponent(targetUrl))
         .then(response => response.json())
