@@ -21,6 +21,11 @@
             <li>Ken Watanabe</li>
         </ul>
         <div class="clear"></div>
+        <hr>
+        <button onclick="agregarFavorito(1)">❤️ Agregar a Favoritos</button>
+        <button onclick="eliminarFavorito(1)">🗑️ Quitar de Favoritos</button>
+        <button onclick="mostrarFavoritos()">Ver favoritos</button>
+
         <h3>Tráiler:</h3>
         <iframe src="https://www.youtube.com/embed/YoHD9XEInc0" title="Inception Trailer" frameborder="0" allowfullscreen></iframe>
         <p><a href="https://www.imdb.com/title/tt1375666/" target="_blank">Más sobre Inception en IMDb</a></p>
@@ -117,6 +122,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     
     <script src="menuScript.js"></script>
+    <script src="renderPeliculas.js"></script>
 
     <footer style="background-color:#222; color:#fff; text-align:center; padding:20px; margin-top:40px;">
         <p>&copy; 2025 Películas Recomendadas | Todos los derechos reservados</p>
