@@ -1,43 +1,45 @@
-// peliculas.js
+// renderPeliculas.js
 
-// URL de tu API en InfinityFree
-const API_URL = 'https://recomendacionestv.fwh.is/api_peliculas.php';
+// Función principal con JSONP
+function cargarYMostrarPeliculas() {
+    console.log('🔄 Cargando películas via JSONP...');
+    
+    // Crear script para JSONP
+    const script = document.createElement('script');
+    script.src = 'https://recomendacionestv.fwh.is/api_peliculas_jsonp.php?callback=mostrarPeliculas&_=' + Date.now();
+    document.head.appendChild(script);
+}
 
-// Función principal para cargar y mostrar películas
-async function cargarYMostrarPeliculas() {
-    try {
-        console.log('🔄 Cargando películas desde:', API_URL);
-        
-        const respuesta = await fetch(API_URL);
-        
-        if (!respuesta.ok) {
-            throw new Error(`Error HTTP: ${respuesta.status}`);
-        }
-        
-        const peliculas = await respuesta.json();
-        console.log('✅ Películas cargadas:', peliculas);
-        
-        // Mostrar cada película en el frontend
+// Función callback que se ejecutará con los datos
+function mostrarPeliculas(peliculas) {
+    console.log('✅ Películas cargadas via JSONP:', peliculas);
+    
+    const contenedor = document.getElementById('contenedor-peliculas');
+    if (!contenedor) {
+        console.error('❌ No se encontró el contenedor');
+        return;
+    }
+    
+    // Limpiar contenedor
+    contenedor.innerHTML = '';
+    
+    // Mostrar cada película
+    if (peliculas && peliculas.length > 0) {
         peliculas.forEach(pelicula => {
             crearElementoPelicula(pelicula);
         });
-        
-    } catch (error) {
-        console.error('❌ Error cargando películas:', error);
-        mostrarError('No se pudieron cargar las películas. Intenta más tarde.');
+    } else {
+        mostrarError('No se encontraron películas');
     }
 }
 
-// Función para crear el HTML de cada película
+// Tu función existente para crear el HTML
 function crearElementoPelicula(pelicula) {
-    // Crear el contenedor principal
     const divPelicula = document.createElement('div');
     divPelicula.className = 'pelicula';
-    divPelicula.id = `pelicula-${pelicula.id}`;
-    
-    // Crear el contenido HTML
     divPelicula.innerHTML = `
-        <img src="${pelicula.poster}" alt="Póster de ${pelicula.titulo}" onerror="this.src='https://via.placeholder.com/300x450/333/fff?text=Poster+No+Disponible'">
+        <img src="${pelicula.poster}" alt="Póster de ${pelicula.titulo}" 
+             onerror="this.src='https://via.placeholder.com/300x450/333/fff?text=Poster+No+Disponible'">
         <h2>${pelicula.titulo}</h2>
         <p><strong>Sinopsis:</strong> ${pelicula.sinopsis}</p>
         <p><strong>Actores principales:</strong></p>
@@ -60,16 +62,9 @@ function crearElementoPelicula(pelicula) {
         <p><a href="${pelicula.ibm}" target="_blank">Más sobre ${pelicula.titulo} en IMDb</a></p>
     `;
     
-    // Agregar al contenedor principal en tu HTML
-    const contenedor = document.getElementById('contenedor-peliculas');
-    if (contenedor) {
-        contenedor.appendChild(divPelicula);
-    } else {
-        console.error('❌ No se encontró el contenedor con id "contenedor-peliculas"');
-    }
+    document.getElementById('contenedor-peliculas').appendChild(divPelicula);
 }
 
-// Función para mostrar errores
 function mostrarError(mensaje) {
     const contenedor = document.getElementById('contenedor-peliculas');
     if (contenedor) {
@@ -77,24 +72,7 @@ function mostrarError(mensaje) {
     }
 }
 
-// Función para cargar una película específica por ID
-async function cargarPeliculaPorId(id) {
-    try {
-        const respuesta = await fetch(API_URL);
-        const peliculas = await respuesta.json();
-        
-        const pelicula = peliculas.find(p => p.id == id);
-        if (pelicula) {
-            crearElementoPelicula(pelicula);
-        } else {
-            console.error(`❌ No se encontró película con ID: ${id}`);
-        }
-    } catch (error) {
-        console.error('❌ Error cargando película:', error);
-    }
-}
-
-// Cargar películas cuando la página esté lista
+// Iniciar cuando la página cargue
 document.addEventListener('DOMContentLoaded', function() {
     console.log('🚀 Iniciando carga de películas...');
     cargarYMostrarPeliculas();
