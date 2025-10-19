@@ -1,83 +1,101 @@
-/* renderPeliculas.js
-   Utilidades pequeñas para manejar favoritos: agregar, eliminar y mostrar.
-   Expectativas:
-   - Películas están en `data/peliculas.json` (cada objeto tiene `id` y `titulo` o `nombre`).
-   - API en `api/favoritos.php` maneja GET (lista), POST (agregar JSON) y DELETE (uri ending with id).
-*/
+// peliculas.js
 
-function agregarFavorito(id) {
-    return fetch('data/peliculas.json')
-        .then(response => {
-            if (!response.ok) throw new Error('No se pudo cargar data/peliculas.json');
-            return response.json();
-        })
-        .then(data => {
-            const pelicula = data.find(p => String(p.id) === String(id));
-            if (!pelicula) throw new Error('Película no encontrada');
-            const titulo = pelicula.titulo || pelicula.nombre || pelicula.nombre_pelicula || '';
-            return fetch('api/favoritos.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ id: pelicula.id, titulo: titulo })
-            });
-        })
-        .then(resp => resp.json())
-        .then(body => ({ ok: true, body }))
-        .catch(err => ({ ok: false, error: err.message }));
-}
+// URL de tu API en InfinityFree
+const API_URL = 'https://recomendacionestv.fwh.is/api_peliculas.php';
 
-function eliminarFavorito(id) {
-    return fetch(`api/favoritos.php/${encodeURIComponent(id)}`, { method: 'DELETE' })
-        .then(r => r.json())
-        .then(body => ({ ok: true, body }))
-        .catch(err => ({ ok: false, error: err.message }));
-}
-
-function mostrarFavoritos(containerSelector = '#favoritos') {
-    return fetch('api/favoritos.php')
-        .then(r => {
-            if (!r.ok) throw new Error('No se pudo obtener la lista de favoritos');
-            return r.json();
-        })
-        .then(lista => {
-            const div = document.querySelector(containerSelector);
-            if (!div) {
-                console.warn(`Contenedor ${containerSelector} no encontrado`);
-                return lista;
-            }
-            div.innerHTML = '<h2>Favoritos:</h2>';
-            if (!Array.isArray(lista) || lista.length === 0) {
-                div.innerHTML += '<p>No hay favoritos aún.</p>';
-                return lista;
-            }
-            lista.forEach(f => {
-                const p = document.createElement('p');
-                p.textContent = f.titulo || f.nombre || f.title || JSON.stringify(f);
-                div.appendChild(p);
-            });
-            return lista;
-        })
-        .catch(err => {
-            console.error('Error mostrando favoritos:', err);
-            return [];
+// Función principal para cargar y mostrar películas
+async function cargarYMostrarPeliculas() {
+    try {
+        console.log('🔄 Cargando películas desde:', API_URL);
+        
+        const respuesta = await fetch(API_URL);
+        
+        if (!respuesta.ok) {
+            throw new Error(`Error HTTP: ${respuesta.status}`);
+        }
+        
+        const peliculas = await respuesta.json();
+        console.log('✅ Películas cargadas:', peliculas);
+        
+        // Mostrar cada película en el frontend
+        peliculas.forEach(pelicula => {
+            crearElementoPelicula(pelicula);
         });
+        
+    } catch (error) {
+        console.error('❌ Error cargando películas:', error);
+        mostrarError('No se pudieron cargar las películas. Intenta más tarde.');
+    }
 }
 
-// Exponer globalmente para que botones en HTML puedan llamarlas directamente
-window.agregarFavorito = function (id) {
-    agregarFavorito(id).then(result => {
-        if (result.ok) alert(result.body.message || 'Agregado a favoritos');
-        else alert('Error: ' + (result.error || JSON.stringify(result.body)));
-    });
-};
+// Función para crear el HTML de cada película
+function crearElementoPelicula(pelicula) {
+    // Crear el contenedor principal
+    const divPelicula = document.createElement('div');
+    divPelicula.className = 'pelicula';
+    divPelicula.id = `pelicula-${pelicula.id}`;
+    
+    // Crear el contenido HTML
+    divPelicula.innerHTML = `
+        <img src="${pelicula.poster}" alt="Póster de ${pelicula.titulo}" onerror="this.src='https://via.placeholder.com/300x450/333/fff?text=Poster+No+Disponible'">
+        <h2>${pelicula.titulo}</h2>
+        <p><strong>Sinopsis:</strong> ${pelicula.sinopsis}</p>
+        <p><strong>Actores principales:</strong></p>
+        <ul>
+            <li>${pelicula.actor1 || 'No disponible'}</li>
+            <li>${pelicula.actor2 || 'No disponible'}</li>
+            <li>${pelicula.actor3 || 'No disponible'}</li>
+            <li>${pelicula.actor4 || 'No disponible'}</li>
+        </ul>
+        <div class="clear"></div>
+        <h3>Tráiler:</h3>
+        <iframe 
+            width="560" 
+            height="315" 
+            src="${pelicula.trailer}" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+        </iframe>
+        <p><a href="${pelicula.ibm}" target="_blank">Más sobre ${pelicula.titulo} en IMDb</a></p>
+    `;
+    
+    // Agregar al contenedor principal en tu HTML
+    const contenedor = document.getElementById('contenedor-peliculas');
+    if (contenedor) {
+        contenedor.appendChild(divPelicula);
+    } else {
+        console.error('❌ No se encontró el contenedor con id "contenedor-peliculas"');
+    }
+}
 
-window.eliminarFavorito = function (id) {
-    eliminarFavorito(id).then(result => {
-        if (result.ok) alert(result.body.message || 'Eliminado de favoritos');
-        else alert('Error: ' + (result.error || JSON.stringify(result.body)));
-    });
-};
+// Función para mostrar errores
+function mostrarError(mensaje) {
+    const contenedor = document.getElementById('contenedor-peliculas');
+    if (contenedor) {
+        contenedor.innerHTML = `<div class="error">${mensaje}</div>`;
+    }
+}
 
-window.mostrarFavoritos = function (selector) {
-    return mostrarFavoritos(selector || '#favoritos');
-};
+// Función para cargar una película específica por ID
+async function cargarPeliculaPorId(id) {
+    try {
+        const respuesta = await fetch(API_URL);
+        const peliculas = await respuesta.json();
+        
+        const pelicula = peliculas.find(p => p.id == id);
+        if (pelicula) {
+            crearElementoPelicula(pelicula);
+        } else {
+            console.error(`❌ No se encontró película con ID: ${id}`);
+        }
+    } catch (error) {
+        console.error('❌ Error cargando película:', error);
+    }
+}
+
+// Cargar películas cuando la página esté lista
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('🚀 Iniciando carga de películas...');
+    cargarYMostrarPeliculas();
+});
